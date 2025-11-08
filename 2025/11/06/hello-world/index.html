@@ -436,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/06/hello-world/" data-id="cmhq6zhhy000imsgfgpyw6q9l" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/06/hello-world/" data-id="cmhq76zjy000rtogf65fqb4lm" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -650,7 +650,7 @@
         scripts.forEach(function(el) { el.remove(); });
         
         var bodyHTML = clonedElement.innerHTML || clonedElement.textContent;
-        // 清理HTML - 使用字符串拼接避免 </script> 被浏览器解析为脚本结束标签
+        // 清理HTML - 使用字符串拼接避免 
         var scriptEnd = '</' + 'script>';
         var scriptPattern = new RegExp('<script[^>]*>.*?' + scriptEnd, 'gi');
         bodyHTML = bodyHTML.replace(scriptPattern, '');
