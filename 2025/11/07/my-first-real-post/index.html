@@ -413,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/07/my-first-real-post/" data-id="cmhq34fd6000o7ogf0vc10n1j" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/07/my-first-real-post/" data-id="cmhq3hjh4000b8ogfcd7t3jm6" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -618,14 +618,23 @@
         scripts.forEach(function(el) { el.remove(); });
         
         var bodyHTML = clonedElement.innerHTML || clonedElement.textContent;
-        // 清理HTML
-        bodyHTML = bodyHTML.replace(/<script[^>]*>.*?</script>/gi, '');
-        bodyHTML = bodyHTML.replace(/<style[^>]*>.*?</style>/gi, '');
+        // 清理HTML - 使用字符串拼接避免 </script> 被浏览器解析为脚本结束标签
+        var scriptEnd = '</' + 'script>';
+        var scriptPattern = new RegExp('<script[^>]*>.*?' + scriptEnd, 'gi');
+        bodyHTML = bodyHTML.replace(scriptPattern, '');
+        var styleEnd = '</' + 'style>';
+        var stylePattern = new RegExp('<style[^>]*>.*?' + styleEnd, 'gi');
+        bodyHTML = bodyHTML.replace(stylePattern, '');
         // 移除自定义脚本注入的内容（避免重复）
-        bodyHTML = bodyHTML.replace(/<div class="custom-.*?</div>/gi, '');
+        var divEnd = '</' + 'div>';
+        var customDivPattern = new RegExp('<div class="custom-.*?' + divEnd, 'gi');
+        bodyHTML = bodyHTML.replace(customDivPattern, '');
         // 移除可能的导航和返回按钮
-        bodyHTML = bodyHTML.replace(/<nav[^>]*>.*?</nav>/gi, '');
-        bodyHTML = bodyHTML.replace(/<div class="custom-.*?</div>/gi, '');
+        var navEnd = '</' + 'nav>';
+        var navPattern = new RegExp('<nav[^>]*>.*?' + navEnd, 'gi');
+        bodyHTML = bodyHTML.replace(navPattern, '');
+        var customDivPattern2 = new RegExp('<div class="custom-.*?' + divEnd, 'gi');
+        bodyHTML = bodyHTML.replace(customDivPattern2, '');
         
         document.getElementById('customPostBody').innerHTML = bodyHTML;
       } else {
