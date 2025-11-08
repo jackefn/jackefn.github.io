@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="&#x2F;* 隐藏 Hexo 原始架构 *&#x2F;   #header {     display: none !important;   }    #banner {     display: none !important;   }    #sidebar {     display: none !important;   }    #footer {     display: none !impo">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-11-08T08:23:12.384Z">
-<meta property="article:modified_time" content="2025-11-08T08:23:12.384Z">
+<meta property="article:published_time" content="2025-11-08T09:06:37.046Z">
+<meta property="article:modified_time" content="2025-11-08T09:06:37.046Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -76,7 +76,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/study/index.html" class="article-date">
-  <time class="dt-published" datetime="2025-11-08T08:23:12.384Z" itemprop="datePublished">2025-11-08</time>
+  <time class="dt-published" datetime="2025-11-08T09:06:37.046Z" itemprop="datePublished">2025-11-08</time>
 </a>
     
   </div>
@@ -439,11 +439,48 @@
 
     <div class="posts-list">
       <h2>文章列表</h2>
-      <div class="empty-state">
-        <div class="icon">📄</div>
-        <p>文章列表将在这里显示...</p>
-        <p style="font-size: 0.9rem; margin-top: 10px;">未来可以通过分类功能自动显示学习笔记类别的文章</p>
+      <div id="studyPostsList" class="posts-container">
+        <div class="empty-state">
+          <div class="icon">📄</div>
+          <p>正在加载文章...</p>
+        </div>
       </div>
+    </div>
+
+    <script>
+      // 动态加载学习笔记分类的文章
+      (function() {
+        fetch('/posts-by-category.json')
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            var postsList = document.getElementById('studyPostsList');
+            var posts = data.study || [];
+            
+            if (posts && posts.length > 0) {
+              var html = '';
+              posts.forEach(function(post) {
+                html += '<div class="post-item">';
+                html += '<a href="' + post.path + '" class="post-link">';
+                html += '<h3>' + post.title + '</h3>';
+                html += '<div class="post-meta"><span>📅 ' + post.date + '</span></div>';
+                html += '<div class="post-excerpt">' + post.excerpt + '</div>';
+                html += '</a>';
+                html += '</div>';
+              });
+              postsList.innerHTML = html;
+            } else {
+              postsList.innerHTML = '<div class="empty-state"><div class="icon">📄</div><p>暂无文章，快去写一篇吧！</p></div>';
+            }
+          })
+          .catch(function(error) {
+            console.error('加载文章列表失败:', error);
+            var postsList = document.getElementById('studyPostsList');
+            postsList.innerHTML = '<div class="empty-state"><div class="icon">📄</div><p>加载文章列表失败，请刷新页面重试。</p></div>';
+          });
+      })();
+    </script>
     </div>
 
     <div class="back-home">
@@ -456,7 +493,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/study/index.html" data-id="cmhq212p10006kggf2wzubp9y" data-title="学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/study/index.html" data-id="cmhq2bwa80003xcgf8o5sgsnh" data-title="学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

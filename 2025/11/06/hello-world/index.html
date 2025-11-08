@@ -35,9 +35,347 @@
   
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0">
+<style>
+  /* 隐藏 Hexo 原始架构 */
+  #header { display: none !important; }
+  #banner { display: none !important; }
+  #sidebar { display: none !important; }
+  #footer { display: none !important; }
+  .article-meta { display: none !important; }
+  .article-header { display: none !important; }
+  .article-footer { display: none !important; }
+  
+  /* 布局调整 */
+  #main { background: transparent !important; width: 100% !important; float: none !important; margin: 0 !important; padding: 0 !important; }
+  .outer { display: block !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .article { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+  .article-inner { padding: 0 !important; }
+  .article-entry { padding: 0 !important; }
+  
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5 !important;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  #container { margin: 0 !important; padding: 0 !important; }
+  #wrap { margin: 0 !important; padding: 0 !important; }
+  
+  /* 顶部导航栏 */
+  .custom-top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .custom-top-nav-inner {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .custom-blog-title {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 40px;
+  }
+  
+  .custom-blog-title img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex: 1;
+  }
+  
+  .custom-nav-links a {
+    flex: 1;
+    text-align: center;
+    max-width: 120px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  .custom-nav-links a:hover {
+    color: #667eea;
+  }
+  
+  /* 背景装饰 */
+  .custom-background-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .custom-geometric-pattern {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    opacity: 0.12;
+    border: 2px solid #333;
+  }
+  
+  .custom-geometric-pattern.left {
+    left: -50px;
+    top: 200px;
+    transform: rotate(45deg);
+  }
+  
+  .custom-geometric-pattern.right {
+    right: -50px;
+    top: 400px;
+    transform: rotate(-45deg);
+  }
+  
+  .custom-geometric-pattern.top-left {
+    left: 50px;
+    top: 100px;
+    transform: rotate(30deg);
+    width: 150px;
+    height: 150px;
+  }
+  
+  .custom-geometric-pattern.bottom-right {
+    right: 50px;
+    bottom: 100px;
+    transform: rotate(-30deg);
+    width: 150px;
+    height: 150px;
+  }
+  
+  /* 文章内容样式 */
+  .custom-post-content {
+    position: relative;
+    z-index: 1;
+    padding-top: 120px;
+    padding-bottom: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  .custom-post-wrapper {
+    background: white;
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+  
+  .custom-post-header {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .custom-post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+  
+  .custom-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.95rem;
+    color: #999;
+  }
+  
+  .custom-post-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+  }
+  
+  .custom-post-body h1,
+  .custom-post-body h2,
+  .custom-post-body h3,
+  .custom-post-body h4 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 700;
+  }
+  
+  .custom-post-body h1 { font-size: 2rem; }
+  .custom-post-body h2 { font-size: 1.75rem; }
+  .custom-post-body h3 { font-size: 1.5rem; }
+  .custom-post-body p { margin-bottom: 20px; }
+  .custom-post-body ul,
+  .custom-post-body ol {
+    margin-bottom: 20px;
+    padding-left: 30px;
+  }
+  .custom-post-body li { margin-bottom: 10px; }
+  .custom-post-body code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .custom-post-body pre {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  .custom-post-body blockquote {
+    border-left: 4px solid #667eea;
+    padding-left: 20px;
+    margin: 20px 0;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .custom-back-link {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .custom-back-link a {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .custom-back-link a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  @media (max-width: 768px) {
+    .custom-post-content {
+      padding: 100px 20px 40px;
+    }
+    .custom-post-wrapper {
+      padding: 40px 30px;
+    }
+    .custom-post-title {
+      font-size: 2rem;
+    }
+    .custom-top-nav-inner {
+      padding: 0 20px;
+    }
+    .custom-blog-title {
+      left: 20px;
+    }
+  }
+</style>
+</head>
 
 <body>
+<!-- 背景装饰 -->
+<div class="custom-background-decoration">
+  <div class="custom-geometric-pattern left"></div>
+  <div class="custom-geometric-pattern right"></div>
+  <div class="custom-geometric-pattern top-left"></div>
+  <div class="custom-geometric-pattern bottom-right"></div>
+</div>
+
+<!-- 顶部导航栏 -->
+<nav class="custom-top-nav">
+  <div class="custom-top-nav-inner">
+    <a href="/about/" class="custom-blog-title">
+      <img src="/person.jpg" alt="个人信息" />
+    </a>
+    <div class="custom-nav-links">
+      <a href="/">首页</a>
+      <a href="/tags/">标签</a>
+      <a href="/about/">关于</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 文章内容 -->
+<div class="custom-post-content">
+  <div class="custom-post-wrapper">
+    <div class="custom-post-header">
+      <h1 class="custom-post-title" id="customPostTitle"></h1>
+      <div class="custom-post-meta" id="customPostMeta"></div>
+    </div>
+    <div class="custom-post-body" id="customPostBody"></div>
+    <div class="custom-back-link">
+      <a href="/">← 返回首页</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 提取文章内容并重新渲染
+  (function() {
+    // 获取文章标题
+    var titleElement = document.querySelector('h1.entry-title, h1.post-title, .article-title h1, h1');
+    var title = titleElement ? titleElement.textContent.trim() : '无标题';
+    document.getElementById('customPostTitle').textContent = title;
+    
+    // 获取文章元数据
+    var metaElement = document.querySelector('.article-meta, .post-meta, .entry-meta');
+    var metaHTML = metaElement ? metaElement.innerHTML : '';
+    document.getElementById('customPostMeta').innerHTML = metaHTML;
+    
+    // 获取文章正文
+    var bodyElement = document.querySelector('.article-entry, .post-content, .entry-content, .article-content, #main .article');
+    if (bodyElement) {
+      var bodyHTML = bodyElement.innerHTML;
+      document.getElementById('customPostBody').innerHTML = bodyHTML;
+    }
+    
+    // 隐藏原始内容
+    var originalContent = document.querySelector('#main, #content, .main-content');
+    if (originalContent) {
+      originalContent.style.display = 'none';
+    }
+  })();
+</script>
+
   <div id="container">
     <div id="wrap">
       <header id="header">
@@ -112,7 +450,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/06/hello-world/" data-id="cmhq212pi000ykggf4nn8ded9" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/06/hello-world/" data-id="cmhq2bwbx000yxcgf79yrcvw8" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
