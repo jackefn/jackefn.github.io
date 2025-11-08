@@ -14,8 +14,8 @@
 <meta property="og:description" content="&#x2F;* 隐藏 Hexo 原始架构 *&#x2F;   #header {     display: none !important;   }    #banner {     display: none !important;   }    #sidebar {     display: none !important;   }    #footer {     display: none !impo">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/person.jpg">
-<meta property="article:published_time" content="2025-11-08T08:23:12.384Z">
-<meta property="article:modified_time" content="2025-11-08T08:23:12.384Z">
+<meta property="article:published_time" content="2025-11-08T08:49:18.424Z">
+<meta property="article:modified_time" content="2025-11-08T08:49:18.424Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/person.jpg">
@@ -78,7 +78,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/tags/index.html" class="article-date">
-  <time class="dt-published" datetime="2025-11-08T08:23:12.384Z" itemprop="datePublished">2025-11-08</time>
+  <time class="dt-published" datetime="2025-11-08T08:49:18.424Z" itemprop="datePublished">2025-11-08</time>
 </a>
     
   </div>
@@ -427,7 +427,8 @@
     margin: 0;
   }
 
-  .post-item {
+  .post-item,
+  .post-link {
     padding: 20px;
     margin-bottom: 15px;
     background: #f9f9f9;
@@ -439,33 +440,46 @@
     display: block;
   }
 
-  .tag-section.essay .post-item {
+  .tag-section.essay .post-item,
+  .tag-section.essay .post-link {
     border-left-color: #667eea;
   }
 
-  .tag-section.study .post-item {
+  .tag-section.study .post-item,
+  .tag-section.study .post-link {
     border-left-color: #4facfe;
   }
 
-  .tag-section.about .post-item {
+  .tag-section.about .post-item,
+  .tag-section.about .post-link {
     border-left-color: #f5576c;
   }
 
-  .post-item:hover {
+  .post-item:hover,
+  .post-link:hover {
     background: #f0f0f0;
     transform: translateX(5px);
   }
 
-  .post-item h3 {
+  .post-item h3,
+  .post-link h3 {
     font-size: 1.2rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 10px;
   }
 
-  .post-item .post-meta {
+  .post-item .post-meta,
+  .post-link .post-meta {
     font-size: 0.9rem;
     color: #999;
+    margin-bottom: 8px;
+  }
+
+  .post-link .post-excerpt {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
   }
 
   .empty-state {
@@ -551,11 +565,14 @@
         <h2>随笔</h2>
       </div>
       <ul class="posts-list" id="essayPosts">
-        <li class="empty-state">
-          <div class="icon">📄</div>
-          <p>暂无文章</p>
-          <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇随笔吧！</p>
-        </li>
+        
+        
+          <li class="empty-state">
+            <div class="icon">📄</div>
+            <p>暂无文章</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇随笔吧！</p>
+          </li>
+        
       </ul>
       <div style="text-align: center; margin-top: 20px;">
         <a href="/essay/" style="color: #667eea; text-decoration: none; font-weight: 600;">查看全部 →</a>
@@ -569,11 +586,14 @@
         <h2>学习笔记</h2>
       </div>
       <ul class="posts-list" id="studyPosts">
-        <li class="empty-state">
-          <div class="icon">📄</div>
-          <p>暂无文章</p>
-          <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇学习笔记吧！</p>
-        </li>
+        
+        
+          <li class="empty-state">
+            <div class="icon">📄</div>
+            <p>暂无文章</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇学习笔记吧！</p>
+          </li>
+        
       </ul>
       <div style="text-align: center; margin-top: 20px;">
         <a href="/study/" style="color: #4facfe; text-decoration: none; font-weight: 600;">查看全部 →</a>
@@ -587,11 +607,14 @@
         <h2>自我介绍</h2>
       </div>
       <ul class="posts-list" id="aboutPosts">
-        <li class="empty-state">
-          <div class="icon">📄</div>
-          <p>暂无文章</p>
-          <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇自我介绍吧！</p>
-        </li>
+        
+        
+          <li class="empty-state">
+            <div class="icon">📄</div>
+            <p>暂无文章</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">快去写一篇自我介绍吧！</p>
+          </li>
+        
       </ul>
       <div style="text-align: center; margin-top: 20px;">
         <a href="/about/" style="color: #f5576c; text-decoration: none; font-weight: 600;">查看全部 →</a>
@@ -604,17 +627,12 @@
   </div>
 </div>
 
-<script>
-  // 注意：由于这是静态HTML文件，无法直接使用Hexo的EJS语法
-  // 文章列表需要通过Hexo生成时自动填充，或者使用JavaScript动态加载
-  // 这里提供一个占位结构，实际文章会在Hexo生成时通过模板引擎填充
-</script>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/tags/index.html" data-id="cmhq1a0bk0006f4gfhtpsaaiv" data-title="标签" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/tags/index.html" data-id="cmhq1qhwc000618gf2z894ozb" data-title="标签" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -631,18 +649,39 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/about/">about</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">essay</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/study/">study</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%84%9F%E6%82%9F/" rel="tag">感悟</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">介绍</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 10px;">关于</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 10px;">异步</a> <a href="/tags/%E6%84%9F%E6%82%9F/" style="font-size: 10px;">感悟</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">November 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">November 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li></ul>
     </div>
   </div>
 
@@ -660,6 +699,18 @@
         
           <li>
             <a href="/2025/11/06/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2025/01/15/example-about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/2025/01/15/example-study/">JavaScript 异步编程学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2025/01/15/example-essay/">冬日随想</a>
           </li>
         
       </ul>
