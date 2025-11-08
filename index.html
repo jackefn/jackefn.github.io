@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>首页 | Hexo</title>
+  <title>Jaxkmxy&#39;s Blog | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="&#x2F;* 隐藏 Hexo 原始架构 *&#x2F;   #header {     display: none !important;   }    #banner {     display: none !important;   }    #sidebar {     display: none !important;   }    #footer {     display: none !impo">
 <meta property="og:type" content="website">
-<meta property="og:title" content="首页">
+<meta property="og:title" content="Jaxkmxy&#39;s Blog">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="&#x2F;* 隐藏 Hexo 原始架构 *&#x2F;   #header {     display: none !important;   }    #banner {     display: none !important;   }    #sidebar {     display: none !important;   }    #footer {     display: none !impo">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/person.jpg">
-<meta property="article:published_time" content="2025-11-08T07:58:06.485Z">
-<meta property="article:modified_time" content="2025-11-08T07:58:06.485Z">
+<meta property="article:published_time" content="2025-11-08T08:14:40.955Z">
+<meta property="article:modified_time" content="2025-11-08T08:14:40.955Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/person.jpg">
@@ -78,7 +78,7 @@
         <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/index.html" class="article-date">
-  <time class="dt-published" datetime="2025-11-08T07:58:06.485Z" itemprop="datePublished">2025-11-08</time>
+  <time class="dt-published" datetime="2025-11-08T08:14:40.955Z" itemprop="datePublished">2025-11-08</time>
 </a>
     
   </div>
@@ -89,7 +89,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      首页
+      Jaxkmxy&#39;s Blog
     </h1>
   
 
@@ -201,8 +201,9 @@
     width: 100%;
     padding: 0 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
   }
 
   .blog-title {
@@ -210,6 +211,8 @@
     align-items: center;
     text-decoration: none;
     transition: all 0.3s ease;
+    position: absolute;
+    left: 40px;
   }
 
   .blog-title:hover {
@@ -235,10 +238,15 @@
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 30px;
+    justify-content: center;
+    gap: 0;
+    flex: 1;
   }
 
   .nav-links a {
+    flex: 1;
+    text-align: center;
+    max-width: 120px;
     color: #333;
     text-decoration: none;
     font-size: 1rem;
@@ -307,7 +315,7 @@
     position: absolute;
     width: 200px;
     height: 200px;
-    opacity: 0.03;
+    opacity: 0.12;
     border: 2px solid #333;
   }
 
@@ -321,6 +329,22 @@
     right: -50px;
     top: 400px;
     transform: rotate(-45deg);
+  }
+
+  .geometric-pattern.top-left {
+    left: 50px;
+    top: 100px;
+    transform: rotate(30deg);
+    width: 150px;
+    height: 150px;
+  }
+
+  .geometric-pattern.bottom-right {
+    right: 50px;
+    bottom: 100px;
+    transform: rotate(-30deg);
+    width: 150px;
+    height: 150px;
   }
 
   /* 主内容区域 */
@@ -487,13 +511,13 @@
   .read-more-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: #dc3545;
     color: white;
-    padding: 12px 30px;
-    border-radius: 25px;
+    padding: 8px 20px;
+    border-radius: 20px;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
@@ -505,8 +529,19 @@
     box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
   }
 
-  .read-more-btn .play-icon {
-    font-size: 1.2rem;
+  .read-more-btn .eye-icon {
+    font-size: 1rem;
+  }
+
+  /* 让阅读更多按钮居中，但保持文本左对齐 */
+  .featured-article h3,
+  .featured-article .article-description {
+    text-align: left;
+  }
+
+  .article-card h3,
+  .article-card .article-description {
+    text-align: left;
   }
 
   /* 其他文章卡片 */
@@ -632,14 +667,23 @@
       padding: 0 20px;
     }
 
+    .blog-title {
+      left: 20px;
+    }
+
     .blog-title img {
       width: 40px;
       height: 40px;
     }
 
     .nav-links {
-      gap: 15px;
+      gap: 10px;
       font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      max-width: 80px;
+      font-size: 0.85rem;
     }
 
     .nav-icons {
@@ -674,6 +718,8 @@
 <div class="background-decoration" id="backgroundDecoration">
   <div class="geometric-pattern left"></div>
   <div class="geometric-pattern right"></div>
+  <div class="geometric-pattern top-left"></div>
+  <div class="geometric-pattern bottom-right"></div>
 </div>
 
 <!-- 顶部导航栏 -->
@@ -707,10 +753,12 @@
     <p class="article-description">
       这里是我的博客首页，记录生活中的点滴感悟，分享日常的思考与体验。这里有我对生活的观察，对世界的理解，以及对未来的憧憬。欢迎你来到这里，与我一起探索知识的海洋。
     </p>
-    <a href="/about/" class="read-more-btn">
-      <span class="play-icon">▶</span>
-      <span>阅读更多</span>
-    </a>
+    <div style="text-align: center;">
+      <a href="/about/" class="read-more-btn">
+        <span class="eye-icon">👁️</span>
+        <span>阅读更多</span>
+      </a>
+    </div>
   </article>
 
   <!-- 其他文章卡片 -->
@@ -720,10 +768,12 @@
       <p class="article-description">
         记录生活中的点滴感悟，分享日常的思考与体验。这里有我对生活的观察，对世界的理解，以及对未来的憧憬。
       </p>
-      <a href="/essay/" class="read-more-btn">
-        <span class="play-icon">▶</span>
-        <span>阅读更多</span>
-      </a>
+      <div style="text-align: center;">
+        <a href="/essay/" class="read-more-btn">
+          <span class="eye-icon">👁️</span>
+          <span>阅读更多</span>
+        </a>
+      </div>
     </article>
 
     <article class="article-card">
@@ -731,10 +781,12 @@
       <p class="article-description">
         整理学习过程中的知识点和心得体会。涵盖技术学习、读书笔记、课程总结等内容，希望能帮助到同样在学习的你。
       </p>
-      <a href="/study/" class="read-more-btn">
-        <span class="play-icon">▶</span>
-        <span>阅读更多</span>
-      </a>
+      <div style="text-align: center;">
+        <a href="/study/" class="read-more-btn">
+          <span class="eye-icon">👁️</span>
+          <span>阅读更多</span>
+        </a>
+      </div>
     </article>
   </div>
 
@@ -794,7 +846,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/index.html" data-id="cmhpzu4uq0000ewgf1q601q7n" data-title="首页" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/index.html" data-id="cmhq0eefh0000wggf0mz3e8wl" data-title="Jaxkmxy&#39;s Blog" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
