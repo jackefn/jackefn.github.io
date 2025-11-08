@@ -1,19 +1,5 @@
 [
   {
-    "title": "(无标题)",
-    "path": "/2025/11/07/my-first-real-post/",
-    "date": "2025-11-07",
-    "excerpt": "Hello World!",
-    "category": ""
-  },
-  {
-    "title": "Hello World",
-    "path": "/2025/11/06/hello-world/",
-    "date": "2025-11-06",
-    "excerpt": "Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any pro...",
-    "category": ""
-  },
-  {
     "title": "关于我",
     "path": "/2025/01/15/example-about/",
     "date": "2025-01-15",
