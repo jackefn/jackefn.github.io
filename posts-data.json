@@ -1,0 +1,37 @@
+[
+  {
+    "title": "(无标题)",
+    "path": "/2025/11/07/my-first-real-post/",
+    "date": "2025-11-07",
+    "excerpt": "Hello World!",
+    "category": ""
+  },
+  {
+    "title": "Hello World",
+    "path": "/2025/11/06/hello-world/",
+    "date": "2025-11-06",
+    "excerpt": "Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any pro...",
+    "category": ""
+  },
+  {
+    "title": "关于我",
+    "path": "/2025/01/15/example-about/",
+    "date": "2025-01-15",
+    "excerpt": "关于我你好，欢迎来到我的博客！\n个人简介我是 Jaxkmxy，一个热爱学习和分享的人。\n兴趣爱好\n📚 阅读：喜欢阅读各种类型的书籍\n💻 编程：对技术充满热情，喜欢探索新技术\n✍️ 写作：通过写作记...",
+    "category": "about"
+  },
+  {
+    "title": "JavaScript 异步编程学习笔记",
+    "path": "/2025/01/15/example-study/",
+    "date": "2025-01-15",
+    "excerpt": "JavaScript 异步编程学习笔记今天学习了 JavaScript 中的异步编程，记录一下学习心得。\nPromise 基础Promise 是 JavaScript 中处理异步操作的重要方式。它有三...",
+    "category": "study"
+  },
+  {
+    "title": "冬日随想",
+    "path": "/2025/01/15/example-essay/",
+    "date": "2025-01-15",
+    "excerpt": "冬日随想今天是一个寒冷的冬日，阳光透过窗户洒在桌面上，温暖而宁静。\n早晨的思考早晨醒来，看着窗外的雪景，心中涌起许多感慨。生活就像这冬日，有寒冷也有温暖，有困难也有希望。\n关于生活生活不易，但值得珍惜...",
+    "category": "essay"
+  }
+]
