@@ -40,21 +40,38 @@
 
 <meta name="generator" content="Hexo 7.3.0">
 <style>
-  /* 隐藏 Hexo 原始架构 */
-  #header { display: none !important; }
-  #banner { display: none !important; }
-  #sidebar { display: none !important; }
-  #footer { display: none !important; }
-  .article-meta { display: none !important; }
-  .article-header { display: none !important; }
-  .article-footer { display: none !important; }
+  /* 隐藏 Hexo 原始架构 - 使用更强的选择器 */
+  #header,
+  #banner,
+  #sidebar,
+  #footer,
+  header:not(.custom-top-nav),
+  footer,
+  .article-meta,
+  .article-header,
+  .article-footer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
   
-  /* 布局调整 */
-  #main { background: transparent !important; width: 100% !important; float: none !important; margin: 0 !important; padding: 0 !important; }
-  .outer { display: block !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-  .article { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
-  .article-inner { padding: 0 !important; }
-  .article-entry { padding: 0 !important; }
+  /* 布局调整 - 隐藏原始容器 */
+  #container:not(:has(.custom-post-content)),
+  #wrap:not(:has(.custom-post-content)),
+  #main:not(:has(.custom-post-content)),
+  .outer:not(:has(.custom-post-content)) {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  /* 如果浏览器不支持:has，使用更通用的方法 */
+  #container,
+  #wrap,
+  #main,
+  .outer {
+    position: relative;
+  }
   
   body {
     margin: 0 !important;
@@ -64,9 +81,6 @@
     position: relative;
     overflow-x: hidden;
   }
-  
-  #container { margin: 0 !important; padding: 0 !important; }
-  #wrap { margin: 0 !important; padding: 0 !important; }
   
   /* 顶部导航栏 */
   .custom-top-nav {
@@ -354,27 +368,141 @@
 <script>
   // 提取文章内容并重新渲染
   (function() {
-    // 获取文章标题
-    var titleElement = document.querySelector('h1.entry-title, h1.post-title, .article-title h1, h1');
-    var title = titleElement ? titleElement.textContent.trim() : '无标题';
-    document.getElementById('customPostTitle').textContent = title;
-    
-    // 获取文章元数据
-    var metaElement = document.querySelector('.article-meta, .post-meta, .entry-meta');
-    var metaHTML = metaElement ? metaElement.innerHTML : '';
-    document.getElementById('customPostMeta').innerHTML = metaHTML;
-    
-    // 获取文章正文
-    var bodyElement = document.querySelector('.article-entry, .post-content, .entry-content, .article-content, #main .article');
-    if (bodyElement) {
-      var bodyHTML = bodyElement.innerHTML;
-      document.getElementById('customPostBody').innerHTML = bodyHTML;
+    // 等待DOM加载完成
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPostContent);
+    } else {
+      initPostContent();
     }
     
-    // 隐藏原始内容
-    var originalContent = document.querySelector('#main, #content, .main-content');
-    if (originalContent) {
-      originalContent.style.display = 'none';
+    function initPostContent() {
+      // 获取文章标题 - 尝试多种选择器
+      var titleElement = document.querySelector('h1.entry-title, h1.post-title, .article-title h1, article h1, .article h1, h1.article-title');
+      if (!titleElement) {
+        // 如果找不到，尝试从title标签获取
+        var pageTitle = document.title.split('|')[0].trim();
+        titleElement = { textContent: pageTitle };
+      }
+      var title = titleElement ? titleElement.textContent.trim() : '无标题';
+      document.getElementById('customPostTitle').textContent = title;
+      
+      // 获取文章日期和分类
+      var dateElement = document.querySelector('.article-date, .post-date, time, .entry-date');
+      var categoryElement = document.querySelector('.article-category, .post-category, .entry-category');
+      var metaHTML = '';
+      if (dateElement) {
+        metaHTML += '<span>📅 ' + (dateElement.textContent || dateElement.getAttribute('datetime') || '') + '</span>';
+      }
+      if (categoryElement) {
+        metaHTML += '<span>🏷️ ' + categoryElement.textContent + '</span>';
+      }
+      document.getElementById('customPostMeta').innerHTML = metaHTML;
+      
+      // 获取文章正文 - 优先查找 .e-content 或 .article-entry
+      var bodyElement = document.querySelector('.e-content.article-entry, .e-content, .article-entry');
+      if (!bodyElement) {
+        // 尝试其他选择器
+        bodyElement = document.querySelector('.post-content, .entry-content, .article-content, article .article-entry, #main .article .article-entry');
+      }
+      if (!bodyElement) {
+        // 如果还是找不到，尝试获取整个article内容
+        var articleElement = document.querySelector('article, .article');
+        if (articleElement) {
+          // 查找包含内容的子元素
+          bodyElement = articleElement.querySelector('.e-content, .article-entry, .post-content');
+          if (!bodyElement) {
+            // 创建临时容器来提取内容
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = articleElement.innerHTML;
+            // 移除标题和元数据
+            var titleEl = tempDiv.querySelector('h1, .article-title, header');
+            var metaEl = tempDiv.querySelector('.article-meta, .post-meta, .entry-meta, footer, .article-footer');
+            if (titleEl) titleEl.remove();
+            if (metaEl) metaEl.remove();
+            bodyElement = tempDiv;
+          }
+        }
+      }
+      
+      if (bodyElement) {
+        // 克隆元素以避免修改原始DOM
+        var clonedElement = bodyElement.cloneNode(true);
+        // 移除可能的脚本和样式
+        var scripts = clonedElement.querySelectorAll('script, style');
+        scripts.forEach(function(el) { el.remove(); });
+        
+        var bodyHTML = clonedElement.innerHTML || clonedElement.textContent;
+        // 清理HTML
+        bodyHTML = bodyHTML.replace(/<script[^>]*>.*?</script>/gi, '');
+        bodyHTML = bodyHTML.replace(/<style[^>]*>.*?</style>/gi, '');
+        // 移除自定义脚本注入的内容（避免重复）
+        bodyHTML = bodyHTML.replace(/<div class="custom-.*?</div>/gi, '');
+        // 移除可能的导航和返回按钮
+        bodyHTML = bodyHTML.replace(/<nav[^>]*>.*?</nav>/gi, '');
+        bodyHTML = bodyHTML.replace(/<div class="custom-.*?</div>/gi, '');
+        
+        document.getElementById('customPostBody').innerHTML = bodyHTML;
+      } else {
+        document.getElementById('customPostBody').innerHTML = '<p>无法加载文章内容</p>';
+      }
+      
+      // 隐藏原始内容 - 更彻底地隐藏
+      setTimeout(function() {
+        // 首先隐藏整个容器（但保留我们的自定义内容）
+        var container = document.querySelector('#container');
+        if (container && !container.querySelector('.custom-post-content')) {
+          // 如果容器不包含我们的自定义内容，隐藏它
+          var wrap = container.querySelector('#wrap');
+          if (wrap && !wrap.querySelector('.custom-post-content')) {
+            wrap.style.display = 'none';
+          }
+        }
+        
+        // 隐藏所有包含原始文章内容的元素
+        var articleElements = document.querySelectorAll('article, .article, #main');
+        articleElements.forEach(function(el) {
+          // 检查是否包含原始文章内容，且不是我们的自定义内容
+          if (el && !el.querySelector('.custom-post-content') && !el.querySelector('.custom-post-wrapper')) {
+            if (el.querySelector('.article-entry, .e-content, .post-content, .article-body')) {
+              el.style.display = 'none';
+              el.style.visibility = 'hidden';
+              el.style.height = '0';
+              el.style.overflow = 'hidden';
+              el.style.position = 'absolute';
+              el.style.left = '-9999px';
+              el.style.opacity = '0';
+            }
+          }
+        });
+        
+        // 隐藏特定的原始内容区域
+        var mainElement = document.querySelector('#main');
+        if (mainElement && !mainElement.querySelector('.custom-post-content')) {
+          mainElement.style.display = 'none';
+        }
+        
+        var outerElement = document.querySelector('.outer');
+        if (outerElement && !outerElement.querySelector('.custom-post-content')) {
+          outerElement.style.display = 'none';
+        }
+        
+        // 隐藏header和footer
+        var header = document.querySelector('#header, header:not(.custom-top-nav)');
+        var footer = document.querySelector('#footer, footer');
+        var banner = document.querySelector('#banner');
+        if (header) {
+          header.style.display = 'none';
+          header.style.visibility = 'hidden';
+        }
+        if (footer) {
+          footer.style.display = 'none';
+          footer.style.visibility = 'hidden';
+        }
+        if (banner) {
+          banner.style.display = 'none';
+          banner.style.visibility = 'hidden';
+        }
+      }, 300);
     }
   })();
 </script>
@@ -456,7 +584,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhq2bwbb0009xcgf5cuvg8w9" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhq2ro1l0003asgf9svb81ew" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
