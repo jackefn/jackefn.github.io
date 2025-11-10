@@ -395,8 +395,13 @@
     // 确保 displayMath 使用 $ 而不是单个 $
     if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
       var firstDelim = config.tex.displayMath[0][0];
+      var secondDelim = config.tex.displayMath[0][1];
       // 如果第一个分隔符是单个 $（长度为1），替换为 $
       if (firstDelim && firstDelim.length === 1 && firstDelim === "$") {
+        config.tex.displayMath[0] = ["$", "$"];
+      }
+      // 额外检查：确保两个分隔符都是 $
+      if (config.tex.displayMath[0][0] !== "$" || config.tex.displayMath[0][1] !== "$") {
         config.tex.displayMath[0] = ["$", "$"];
       }
     }
@@ -530,7 +535,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht2c4nx000chkgf97b2783z" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht2ob970006gkgf41v5ehul" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

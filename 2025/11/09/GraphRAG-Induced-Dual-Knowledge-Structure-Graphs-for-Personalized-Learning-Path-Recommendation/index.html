@@ -400,8 +400,13 @@
     // 确保 displayMath 使用 $ 而不是单个 $
     if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
       var firstDelim = config.tex.displayMath[0][0];
+      var secondDelim = config.tex.displayMath[0][1];
       // 如果第一个分隔符是单个 $（长度为1），替换为 $
       if (firstDelim && firstDelim.length === 1 && firstDelim === "$") {
+        config.tex.displayMath[0] = ["$", "$"];
+      }
+      // 额外检查：确保两个分隔符都是 $
+      if (config.tex.displayMath[0][0] !== "$" || config.tex.displayMath[0][1] !== "$") {
         config.tex.displayMath[0] = ["$", "$"];
       }
     }
@@ -569,7 +574,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht2c4mu0001hkgf8dy5g8mg" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht2ob9g0009gkgf7dvu8gfc" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
