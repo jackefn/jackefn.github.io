@@ -501,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhswez6n000gp4gf0cts98jm" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhswl7d90007b8gf80ox2x8e" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -731,15 +731,20 @@
         bodyHTML = bodyHTML.replace(customDivPattern2, '');
         
         // 移除图片后的 caption（由 script.js 添加的）
-        bodyHTML = bodyHTML.replace(/<span class="caption">[^<]*</span>/gi, '');
+        // 使用字符串拼接避免 </span> 被解析为脚本结束标签
+        var spanEnd = '</' + 'span>';
+        var captionPattern = new RegExp('<span class="caption">[^<]*' + spanEnd, 'gi');
+        bodyHTML = bodyHTML.replace(captionPattern, '');
         
         // 修复公式显示：确保 $$...$$ 公式保持块级显示
         // 将单独成行的 $...$ 公式（应该是 $$...$$）转换为块级
         // 匹配：<p>$...$</p> 且公式较长或包含 	ag（可能是块级公式被错误渲染）
-        bodyHTML = bodyHTML.replace(/<p>$([^$]+)$</p>/g, function(match, formula) {
+        var pEnd = '</' + 'p>';
+        var formulaPattern = new RegExp('<p>\$([^$]+)\$' + pEnd, 'g');
+        bodyHTML = bodyHTML.replace(formulaPattern, function(match, formula) {
           // 如果公式包含 	ag 或较长，应该是块级公式
           if (formula.indexOf('\tag') > -1 || formula.length > 50) {
-            return '<p>$$' + formula + '$$</p>';
+            return '<p>$$' + formula + '$$' + pEnd;
           }
           return match;
         });
