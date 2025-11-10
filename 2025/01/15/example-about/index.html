@@ -324,12 +324,22 @@
     font-style: italic;
   }
   
-  /* 图片居中显示 */
+  /* 图片居中显示 - 柔和阴影效果 */
   .custom-post-body img {
     display: block;
     margin: 20px auto;
     max-width: 100%;
     height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+    background: #fff;
+    padding: 4px;
+  }
+  
+  /* 图片悬停效果 */
+  .custom-post-body img:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
   }
   
   /* 隐藏图片后的 caption */
@@ -560,7 +570,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht537lz0009hkgf2psp6ubj" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht5k0x2000cqogf96k55vs3" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
