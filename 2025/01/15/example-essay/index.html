@@ -210,14 +210,22 @@
   .custom-post-body mjx-container:not([display="true"]) {
     display: inline !important;
     margin: 0 !important;
+    vertical-align: baseline !important;
   }
   
   /* 确保行内公式的父元素不会强制换行 */
   .custom-post-body p mjx-container:not([display="true"]),
   .custom-post-body li mjx-container:not([display="true"]),
-  .custom-post-body span mjx-container:not([display="true"]) {
+  .custom-post-body span mjx-container:not([display="true"]),
+  .custom-post-body * mjx-container:not([display="true"]) {
     display: inline !important;
     vertical-align: baseline !important;
+    margin: 0 !important;
+  }
+  
+  /* 强制所有没有 display="true" 的 mjx-container 为行内 */
+  .custom-post-body mjx-container {
+    display: inline !important;
   }
   
   /* 块级公式（mjx-container[display="true"]）保持块级显示 */
@@ -387,9 +395,8 @@
     // 确保 displayMath 使用 $ 而不是单个 $
     if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
       var firstDelim = config.tex.displayMath[0][0];
-      var secondDelim = config.tex.displayMath[0][1];
       // 如果第一个分隔符是单个 $（长度为1），替换为 $
-      if (firstDelim === "$" && firstDelim.length === 1) {
+      if (firstDelim && firstDelim.length === 1 && firstDelim === "$") {
         config.tex.displayMath[0] = ["$", "$"];
       }
     }
@@ -512,7 +519,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmht1yj470009gcgfdinw5l2z" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmht2c4o0000dhkgf06529949" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -757,6 +764,21 @@
         
                     if (bodyEl) {
                       bodyEl.innerHTML = bodyHTML;
+                      
+                      // 等待 MathJax 渲染完成后，强制修复行内公式的显示
+                      if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise([bodyEl]).then(function() {
+                          // 强制所有没有 display="true" 的 mjx-container 为行内显示
+                          var inlineContainers = bodyEl.querySelectorAll('mjx-container:not([display="true"])');
+                          inlineContainers.forEach(function(container) {
+                            container.style.display = 'inline';
+                            container.style.margin = '0';
+                            container.style.verticalAlign = 'baseline';
+                          });
+                        }).catch(function(err) {
+                          console.error('MathJax typeset error:', err);
+                        });
+                      }
                     }
                   } else {
                     if (bodyEl) {
