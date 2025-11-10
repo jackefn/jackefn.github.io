@@ -371,28 +371,11 @@
   }
 </style>
 <script type="text/javascript">
-  window.MathJax = {
+  (function() {
+    var config = {
     "tex": {
-      "inlineMath": [
-        [
-          "$",
-          "$"
-        ],
-        [
-          "\\(",
-          "\\)"
-        ]
-      ],
-      "displayMath": [
-        [
-          "$",
-          "$"
-        ],
-        [
-          "\\[",
-          "\\]"
-        ]
-      ],
+      "inlineMath": [["$", "$"], ["\\( ", " \\)"]],
+      "displayMath": [["$", "$"], ["\\[ ", " \\]"]],
       "processEscapes": true,
       "processEnvironments": true
     },
@@ -401,6 +384,17 @@
       "processHtmlClass": "tex2jax_process"
     }
   };
+    // 确保 displayMath 使用 $ 而不是单个 $
+    if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
+      var firstDelim = config.tex.displayMath[0][0];
+      var secondDelim = config.tex.displayMath[0][1];
+      // 如果第一个分隔符是单个 $（长度为1），替换为 $
+      if (firstDelim === "$" && firstDelim.length === 1) {
+        config.tex.displayMath[0] = ["$", "$"];
+      }
+    }
+    window.MathJax = config;
+  })();
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 
@@ -518,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmht1ktbv000604gf39dh65gf" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmht1yj470009gcgfdinw5l2z" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

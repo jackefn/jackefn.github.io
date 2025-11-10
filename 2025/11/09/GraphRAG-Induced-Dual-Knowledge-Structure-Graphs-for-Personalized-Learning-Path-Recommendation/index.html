@@ -376,28 +376,11 @@
   }
 </style>
 <script type="text/javascript">
-  window.MathJax = {
+  (function() {
+    var config = {
     "tex": {
-      "inlineMath": [
-        [
-          "$",
-          "$"
-        ],
-        [
-          "\\(",
-          "\\)"
-        ]
-      ],
-      "displayMath": [
-        [
-          "$",
-          "$"
-        ],
-        [
-          "\\[",
-          "\\]"
-        ]
-      ],
+      "inlineMath": [["$", "$"], ["\\( ", " \\)"]],
+      "displayMath": [["$", "$"], ["\\[ ", " \\]"]],
       "processEscapes": true,
       "processEnvironments": true
     },
@@ -406,6 +389,17 @@
       "processHtmlClass": "tex2jax_process"
     }
   };
+    // 确保 displayMath 使用 $ 而不是单个 $
+    if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
+      var firstDelim = config.tex.displayMath[0][0];
+      var secondDelim = config.tex.displayMath[0][1];
+      // 如果第一个分隔符是单个 $（长度为1），替换为 $
+      if (firstDelim === "$" && firstDelim.length === 1) {
+        config.tex.displayMath[0] = ["$", "$"];
+      }
+    }
+    window.MathJax = config;
+  })();
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head>
 
@@ -568,7 +562,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht1ktbo000504gf54iz55nf" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht1yj3v0005gcgf6i2mfjhn" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
