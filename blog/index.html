@@ -118,24 +118,26 @@
 <h2 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h2><img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%202.png" alt="Figure 2" width="100%">
 
 <h3 id="1-知识概念图生成"><a href="#1-知识概念图生成" class="headerlink" title="1. 知识概念图生成"></a>1. 知识概念图生成</h3><p><strong>知识概念解释生成</strong>：借鉴TextGrad思路，首先让LLM为每个知识概念生成一份初始的分析报告（分析该概念与其他概念之间的联系），然后将该报告输入另一个LLM，对当前报告进行评估，并生成反馈意见，LLM根据反馈意见来重写分析报告，迭代T轮。</p>
-<p><strong>EDU-GraphRAG</strong>：将上述生成的知识概念-分析报告拼接成一个长文档，然后对其进行分块，提取每个块里面的实体和关系，构成若干个子图，再对子图进行合并，获得全局的图索引。该模块进行工作时，给定问题Q和图索引，输出$A_G$，即先决知识概念图和相似知识概念图。</p>
+<p><strong>EDU-GraphRAG</strong>：将上述生成的知识概念-分析报告拼接成一个长文档，然后对其进行分块，提取每个块里面的实体和关系，构成若干个子图，再对子图进行合并，获得全局的图索引。该模块进行工作时，给定问题$Q$和图索引，输出$A_G$，即先决知识概念图和相似知识概念图。</p>
 <h3 id="2-学习路径生成"><a href="#2-学习路径生成" class="headerlink" title="2. 学习路径生成"></a>2. 学习路径生成</h3><p><strong>知识追踪</strong>：采用<strong>DIMKT</strong>算法，通过学习者的历史练习记录的知识点以及练习题目的难度，动态预测学习者知识掌握程度，本论文将其作为RL的Environment。</p>
 <p><strong>先决知识概念Agent</strong>：在先决知识概念图的约束下，选择下一个需要学习的知识点。</p>
 <ul>
-<li><p>状态编码$s_t$：由学习者的历史知识状态$h_t - 1$（每个知识点的掌握概率）和学习目标$G$（独热编码）构成，表示为：$s_t &#x3D; h_t - 1 ⊕ G$。</p>
+<li><p>状态编码$s_t$：由学习者的历史知识状态$h_{t-1}$（每个知识点的掌握概率）和学习目标$G$（独热编码）构成，表示为：$s_t &#x3D; h_{t-1} \oplus G$。</p>
 </li>
-<li><p>策略：采取PPO优化策略，策略网络为$π(G|s_t;θ)$，价值网络为$V(s_t;φ)$，其中，策略网络在先决图谱的约束下输出每一个知识点的选择概率。价值网络采用<strong>MSE</strong>损失函数优化，策略网络优化形式为：</p>
+<li><p>策略：采取PPO优化策略，策略网络为$\pi(G|s_t;\theta)$，价值网络为$V(s_t;\phi)$，其中，策略网络在先决图谱的约束下输出每一个知识点的选择概率。价值网络采用<strong>MSE</strong>损失函数优化，策略网络优化形式为：</p>
 </li>
 </ul>
-<p>优势函数：<br>$$\hat{A}<em>t &#x3D; -V(s_t; \phi) + R</em>{et} + \cdots + \gamma^{T-t} V(s_T; \phi) \tag{11}$$</p>
-<p>损失函数：<br>$$L(\theta) &#x3D; \mathbb{E}_t\left[\min\left(r_t(\theta)\hat{A}_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\hat{A}_t\right)\right] \tag{12}$$</p>
-<p>其中，$r_t(\theta)$为新旧概率之比，clip为约束操作，$R_{et}$为最终步骤的奖励，可以表示为$R_{et} &#x3D; E_p &#x3D; \frac{E_{\text{end}} - E_{\text{start}}}{E_{\text{sup}} - E_{\text{start}}}$。$E_{end}$为路径推荐结束后学生对知识点的掌握程度，$E_{start}$为初始知识点掌握程度，$E_{sup}$为理论上的最大掌握程度。</p>
+<p>优势函数：</p>
+<p>$$\hat{A}<em>t &#x3D; -V(s_t; \phi) + R</em>{et} + \cdots + \gamma^{T-t} V(s_T; \phi) \tag{11}$$</p>
+<p>损失函数：</p>
+<p>$$L(\theta) &#x3D; \mathbb{E}_t\left[\min\left(r_t(\theta)\hat{A}_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\hat{A}_t\right)\right] \tag{12}$$</p>
+<p>其中，$r_t(\theta)$为新旧概率之比，clip为约束操作，$R_{et}$为最终步骤的奖励，可以表示为$R_{et} &#x3D; E_p &#x3D; \frac{E_{\text{end}} - E_{\text{start}}}{E_{\text{sup}} - E_{\text{start}}}$。$E_{\text{end}}$为路径推荐结束后学生对知识点的掌握程度，$E_{\text{start}}$为初始知识点掌握程度，$E_{\text{sup}}$为理论上的最大掌握程度。</p>
 <p><strong>相似知识概念Agent</strong>：根据相似知识概念图识别相似概念集合，筛选出能有效提升学习者掌握知识的子路径，架构与P-Agent一致。</p>
 <p><strong>难度Agent</strong>：确保当前选择练习题的难度与当前学习者掌握该知识概念的程度相符合，用于选择指定知识点的练习题。</p>
 <p><strong>学习路径构建机制</strong>：包括初始知识点选择以及Agent调用流程。</p>
 <ul>
 <li>初始知识概念选择：选择从初始节点出发，到达目标知识概念的最短路径。具体算法为：从目标节点出发，逆序进行遍历，若学习者已掌握当前知识概念，则终止遍历；若未掌握，则继续遍历至前置知识概念链最长的节点。</li>
-<li>Agent转换机制：评估当前知识概念掌握的进步幅度$p_t &#x3D; h_{t - 1} - h_{t - 2}$，若该幅度小于$γ$，则调用S-Agent选择相似的知识点进行学习，随后再替换为P-Agent。</li>
+<li>Agent转换机制：评估当前知识概念掌握的进步幅度$p_t &#x3D; h_{t-1} - h_{t-2}$，若该幅度小于$\gamma$，则调用S-Agent选择相似的知识点进行学习，随后再替换为P-Agent。</li>
 </ul>
 <h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="1-Datasets"><a href="#1-Datasets" class="headerlink" title="1. Datasets"></a>1. Datasets</h3><p>三个教育资源数据集：Junyi、MOOCCubeX、ASSISTments2009，使用$E_p$来评估所有方法。</p>
 <h3 id="2-Main-Results"><a href="#2-Main-Results" class="headerlink" title="2. Main Results"></a>2. Main Results</h3><p>如下表所示，在3个数据集均获得最优结果，并且可以观察到，其余方法随着推荐路径Step的增加，效果返回会出现下降，而本文的方法始终存在提升。</p>
@@ -156,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmhsub1zf0001rogfaeii56ob" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmhsuqfcz000774gf3e6621qp" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -223,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmhsub1zj0003rogfbzef3fym" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmhsuqfc3000174gfcr4y906y" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -282,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhsub1zp0009rogf8yl7a5zf" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhsuqfd7000974gf5qe95l31" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -338,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsub1zo0007rogfa1h9e7vf" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsuqfcf000374gf2ai1fry1" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
