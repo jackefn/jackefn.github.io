@@ -107,7 +107,7 @@
 </li>
 </ul>
 <p>目前，主要采用第二种方法。</p>
-<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%201.png" alt="Figure 1" width="100%">
+<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%201.png" alt="" width="100%">
 
 <p>然而，目前已有的数据集部分不存在已建立好的KC图，而已有图谱的数据集则存在概念缺失或依赖关系不准确的问题。想要构建出较好的KC图依赖于专家进行标注，需耗费大量的人工成本，而使用LLM生成KC图谱的方法因为缺乏关于知识概念的高质量文本描述，往往存在生成虚假关系的风险。此外，先决知识往往具有串联性，一个知识难以掌握，那么后续的知识也无法掌握，无法到达目标状态。因此，当学习者遇到学习障碍时，应该及时调整学习方向，例如更换一个相似的知识点来进行学习。（<strong>辨别学习</strong>）</p>
 <p>基于上述挑战，本文贡献如下：</p>
@@ -115,7 +115,7 @@
 <li>提出<strong>EDU-GraphRAG</strong>模块，为不同数据集自适应生成知识概念的先决条件图和相似性关系图；</li>
 <li>引入<strong>DLRL</strong>模块，当先决条件失效时，引入相似性关系作为替代方案。</li>
 </ul>
-<h2 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h2><img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%202.png" alt="Figure 2" width="100%">
+<h2 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h2><img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%202.png" alt="" width="100%">
 
 <h3 id="1-知识概念图生成"><a href="#1-知识概念图生成" class="headerlink" title="1. 知识概念图生成"></a>1. 知识概念图生成</h3><p><strong>知识概念解释生成</strong>：借鉴TextGrad思路，首先让LLM为每个知识概念生成一份初始的分析报告（分析该概念与其他概念之间的联系），然后将该报告输入另一个LLM，对当前报告进行评估，并生成反馈意见，LLM根据反馈意见来重写分析报告，迭代T轮。</p>
 <p><strong>EDU-GraphRAG</strong>：将上述生成的知识概念-分析报告拼接成一个长文档，然后对其进行分块，提取每个块里面的实体和关系，构成若干个子图，再对子图进行合并，获得全局的图索引。该模块进行工作时，给定问题$Q$和图索引，输出$A_G$，即先决知识概念图和相似知识概念图。</p>
@@ -141,13 +141,13 @@
 </ul>
 <h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="1-Datasets"><a href="#1-Datasets" class="headerlink" title="1. Datasets"></a>1. Datasets</h3><p>三个教育资源数据集：Junyi、MOOCCubeX、ASSISTments2009，使用$E_p$来评估所有方法。</p>
 <h3 id="2-Main-Results"><a href="#2-Main-Results" class="headerlink" title="2. Main Results"></a>2. Main Results</h3><p>如下表所示，在3个数据集均获得最优结果，并且可以观察到，其余方法随着推荐路径Step的增加，效果返回会出现下降，而本文的方法始终存在提升。</p>
-<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%203.png" alt="Figure 3" width="80%">
+<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%203.png" alt="" width="80%">
 
 <h3 id="3-Ablation-Study"><a href="#3-Ablation-Study" class="headerlink" title="3. Ablation Study"></a>3. Ablation Study</h3><p>主要是对S-Agent进行了消融研究，可以发现在去掉S-Agent后，随着Step的增高（尤其是15-20），会存在指标的下降，而加上S-Agent后，这种效果得到了明显的改善。</p>
-<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%204.png" alt="Figure 4" width="60%">
+<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%204.png" alt="" width="60%">
 
 <h3 id="4-Knowledge-Graph-Visualization"><a href="#4-Knowledge-Graph-Visualization" class="headerlink" title="4. Knowledge Graph Visualization"></a>4. Knowledge Graph Visualization</h3><p>对两个数据集自带的知识图谱和生成的图谱进行了可视化分析，发现生成的图谱知识概念更为全面，边也更多。</p>
-<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%205.png" alt="Figure 5" width="40%">
+<img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/GraphRAG-Induced%20Dual%20Konwledge%20Figure%205.png" alt="" width="40%">
 
 <h2 id="一些值得思考的点"><a href="#一些值得思考的点" class="headerlink" title="一些值得思考的点"></a>一些值得思考的点</h2><ol>
 <li>本论文是通过llm生成概念文档，以此来充实概念节点之间的边的，感觉是一个不错的思路，某种意义上丰富了学习路径推荐的多样性，或许这也是为什么在Step 5时就已经超越了其余的方法，可见本文章构建的图较为有效。</li>
@@ -158,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmhsuzuvy000edcgf1geccdht" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmhsvbo370001d0gf2go4767e" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -225,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmhsuzuuc0001dcgf03ix6ax1" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmhsvbo3w000cd0gf4an83oct" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -284,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhsuzuw2000fdcgf7nox8izj" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmhsvbo3z000dd0gfhoj4aqpw" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -340,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsuzuwb000idcgfa317g7tv" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsvbo43000gd0gfg2pxeu8i" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

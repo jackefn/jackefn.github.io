@@ -295,6 +295,21 @@
     font-style: italic;
   }
   
+  /* 隐藏图片后的 caption */
+  .custom-post-body .caption {
+    display: none !important;
+  }
+  
+  /* 确保块级公式正确显示 */
+  .custom-post-body p:has(> span:has(> .MathJax[display="block"])) {
+    text-align: center;
+  }
+  
+  /* 修复公式显示：确保 $...$ 公式为块级，$...$ 公式为行内 */
+  .custom-post-body p:has(> span:has(> .MathJax[display="block"])) {
+    margin: 1.5em 0;
+  }
+  
   .custom-back-link {
     text-align: center;
     margin-top: 40px;
@@ -464,7 +479,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsuzuwb000idcgfa317g7tv" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhsvbo43000gd0gfg2pxeu8i" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -687,6 +702,20 @@
         bodyHTML = bodyHTML.replace(navPattern, '');
         var customDivPattern2 = new RegExp('<div class="custom-.*?' + divEnd, 'gi');
         bodyHTML = bodyHTML.replace(customDivPattern2, '');
+        
+        // 移除图片后的 caption（由 script.js 添加的）
+        bodyHTML = bodyHTML.replace(/<span class="caption">[^<]*</span>/gi, '');
+        
+        // 修复公式显示：确保 $$...$$ 公式保持块级显示
+        // 将单独成行的 $...$ 公式（应该是 $$...$$）转换为块级
+        // 匹配：<p>$...$</p> 且公式较长或包含 	ag（可能是块级公式被错误渲染）
+        bodyHTML = bodyHTML.replace(/<p>$([^$]+)$</p>/g, function(match, formula) {
+          // 如果公式包含 	ag 或较长，应该是块级公式
+          if (formula.indexOf('\tag') > -1 || formula.length > 50) {
+            return '<p>$$' + formula + '$$</p>';
+          }
+          return match;
+        });
         
                     if (bodyEl) {
                       bodyEl.innerHTML = bodyHTML;
