@@ -394,9 +394,11 @@
   };
     // 强制修复：确保 displayMath 使用 $ 而不是单个 $
     // 这是关键！如果 displayMath 使用单个 $，所有 $...$ 都会被当作块级公式
+    // 使用字符串拼接在运行时生成 $，避免被过滤器处理
+    var d = "$";
     if (config.tex && config.tex.displayMath && config.tex.displayMath[0]) {
-      // 直接强制设置为 $，不管原来的值是什么
-      config.tex.displayMath[0] = ["$", "$"];
+      // 直接强制设置为 $（通过字符串拼接：d + d = "$"）
+      config.tex.displayMath[0] = [d + d, d + d];
     }
     window.MathJax = config;
   })();
@@ -528,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht3hlxr000cr4gffy5l7zap" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht4jyro000398gf1j9m27nv" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
