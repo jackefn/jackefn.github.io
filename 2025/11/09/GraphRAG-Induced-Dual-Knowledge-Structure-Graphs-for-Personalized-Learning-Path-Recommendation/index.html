@@ -329,9 +329,39 @@
     font-style: italic;
   }
   
+  /* 图片居中显示 */
+  .custom-post-body img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+  }
+  
   /* 隐藏图片后的 caption */
   .custom-post-body .caption {
     display: none !important;
+  }
+  
+  /* 确保加粗文本正常显示 */
+  .custom-post-body strong,
+  .custom-post-body b {
+    font-weight: 700;
+    color: #333;
+  }
+  
+  /* 确保无序列表正常显示 */
+  .custom-post-body ul {
+    list-style-type: disc;
+    padding-left: 30px;
+  }
+  
+  .custom-post-body ul li {
+    list-style-type: disc;
+    margin-bottom: 10px;
+  }
+  
+  .custom-post-body ul li::marker {
+    color: #667eea;
   }
   
   /* 确保块级公式正确显示 */
@@ -533,22 +563,22 @@
 <h3 id="2-学习路径生成"><a href="#2-学习路径生成" class="headerlink" title="2. 学习路径生成"></a>2. 学习路径生成</h3><p><strong>知识追踪</strong>：采用<strong>DIMKT</strong>算法，通过学习者的历史练习记录的知识点以及练习题目的难度，动态预测学习者知识掌握程度，本论文将其作为RL的Environment。</p>
 <p><strong>先决知识概念Agent</strong>：在先决知识概念图的约束下，选择下一个需要学习的知识点。</p>
 <ul>
-<li><p>状态编码$s_t$：由学习者的历史知识状态$h_{t-1}$（每个知识点的掌握概率）和学习目标$G$（独热编码）构成，表示为：$1= h_{t-1} \oplus G$。</p>
+<li><p>状态编码$s_t$：由学习者的历史知识状态$h_{t-1}$（每个知识点的掌握概率）和学习目标$G$（独热编码）构成，表示为：s_t = h_{t-1} \oplus G$。</p>
 </li>
-<li><p>策略：采取PPO优化策略，策略网络为$\pi(G|s_t;\theta)$，价值网络为$V(s_t;\phi)$，其中，策略网络在先决图谱的约束下输出每一个知识点的选择概率。价值网络采用<strong>MSE</strong>损失函数优化，策略网络优化形式为：</p>
+<li><p>策略：采取PPO优化策略，策略网络为$\pi(G|s_t;\theta)$，价值网络为$V(s_t;\phi)，其中，策略网络在先决图谱的约束下输出每一个知识点的选择概率。价值网络采用<strong>MSE</strong>损失函数优化，策略网络优化形式为：</p>
 </li>
 </ul>
 <p>优势函数：</p>
-<p>$1R_{et} + \cdots + \gamma^{T-t} V(s_T; \phi) \tag{11}$</p>
+<p>\hat{A}_t = -V(s_t; \phi) + R_{et} + \cdots + \gamma^{T-t} V(s_T; \phi) \tag{11}$</p>
 <p>损失函数：</p>
 <p>$L(\theta) = \mathbb{E}_t\left[\min\left(r_t(\theta)\hat{A}_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\hat{A}_t\right)\right] \tag{12}$</p>
-<p>其中，$r_t(\theta)$为新旧概率之比，clip为约束操作，$R_{et}$为最终步骤的奖励，可以表示为$1= E_p &#x3D; \frac{E_{\text{end}} - E_{\text{start}}}{E_{\text{sup}} - E_{\text{start}}}$。$E_{\text{end}}$为路径推荐结束后学生对知识点的掌握程度，$E_{\text{start}}$为初始知识点掌握程度，$E_{\text{sup}}$为理论上的最大掌握程度。</p>
+<p>其中，$r_t(\theta)$为新旧概率之比，clip为约束操作，$R_{et}$为最终步骤的奖励，可以表示为R_{et} = E_p &#x3D; \frac{E_{\text{end}} - E_{\text{start}}}{E_{\text{sup}} - E_{\text{start}}}$。$E_{\text{end}}$为路径推荐结束后学生对知识点的掌握程度，$E_{\text{start}}$为初始知识点掌握程度，$E_{\text{sup}}$为理论上的最大掌握程度。</p>
 <p><strong>相似知识概念Agent</strong>：根据相似知识概念图识别相似概念集合，筛选出能有效提升学习者掌握知识的子路径，架构与P-Agent一致。</p>
 <p><strong>难度Agent</strong>：确保当前选择练习题的难度与当前学习者掌握该知识概念的程度相符合，用于选择指定知识点的练习题。</p>
 <p><strong>学习路径构建机制</strong>：包括初始知识点选择以及Agent调用流程。</p>
 <ul>
 <li>初始知识概念选择：选择从初始节点出发，到达目标知识概念的最短路径。具体算法为：从目标节点出发，逆序进行遍历，若学习者已掌握当前知识概念，则终止遍历；若未掌握，则继续遍历至前置知识概念链最长的节点。</li>
-<li>Agent转换机制：评估当前知识概念掌握的进步幅度$1= h_{t-1} - h_{t-2}$，若该幅度小于$\gamma$，则调用S-Agent选择相似的知识点进行学习，随后再替换为P-Agent。</li>
+<li>Agent转换机制：评估当前知识概念掌握的进步幅度p_t = h_{t-1} - h_{t-2}$，若该幅度小于$\gamma$，则调用S-Agent选择相似的知识点进行学习，随后再替换为P-Agent。</li>
 </ul>
 <h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="1-Datasets"><a href="#1-Datasets" class="headerlink" title="1. Datasets"></a>1. Datasets</h3><p>三个教育资源数据集：Junyi、MOOCCubeX、ASSISTments2009，使用$E_p$来评估所有方法。</p>
 <h3 id="2-Main-Results"><a href="#2-Main-Results" class="headerlink" title="2. Main Results"></a>2. Main Results</h3><p>如下表所示，在3个数据集均获得最优结果，并且可以观察到，其余方法随着推荐路径Step的增加，效果返回会出现下降，而本文的方法始终存在提升。</p>
@@ -569,7 +599,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht4jyrg000198gf75ov54md" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht537jr0003hkgfdt0zd6t8" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
