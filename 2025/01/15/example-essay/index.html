@@ -206,6 +206,27 @@
     margin: 1.5em 0 !important;
   }
   
+  /* 确保行内公式（mjx-container 没有 display="true"）保持行内显示 */
+  .custom-post-body mjx-container:not([display="true"]) {
+    display: inline !important;
+    margin: 0 !important;
+  }
+  
+  /* 确保行内公式的父元素不会强制换行 */
+  .custom-post-body p mjx-container:not([display="true"]),
+  .custom-post-body li mjx-container:not([display="true"]),
+  .custom-post-body span mjx-container:not([display="true"]) {
+    display: inline !important;
+    vertical-align: baseline !important;
+  }
+  
+  /* 块级公式（mjx-container[display="true"]）保持块级显示 */
+  .custom-post-body mjx-container[display="true"] {
+    display: block !important;
+    margin: 1.5em auto !important;
+    text-align: center;
+  }
+  
   /* 文章内容样式 */
   .custom-post-content {
     position: relative;
@@ -497,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmhswl7eq000wb8gf1j3240l1" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmht1ktbv000604gf39dh65gf" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

@@ -211,6 +211,27 @@
     margin: 1.5em 0 !important;
   }
   
+  /* 确保行内公式（mjx-container 没有 display="true"）保持行内显示 */
+  .custom-post-body mjx-container:not([display="true"]) {
+    display: inline !important;
+    margin: 0 !important;
+  }
+  
+  /* 确保行内公式的父元素不会强制换行 */
+  .custom-post-body p mjx-container:not([display="true"]),
+  .custom-post-body li mjx-container:not([display="true"]),
+  .custom-post-body span mjx-container:not([display="true"]) {
+    display: inline !important;
+    vertical-align: baseline !important;
+  }
+  
+  /* 块级公式（mjx-container[display="true"]）保持块级显示 */
+  .custom-post-body mjx-container[display="true"] {
+    display: block !important;
+    margin: 1.5em auto !important;
+    text-align: center;
+  }
+  
   /* 文章内容样式 */
   .custom-post-content {
     position: relative;
@@ -547,7 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmhswl7bp0001b8gfbudre6w8" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmht1ktbo000504gf54iz55nf" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

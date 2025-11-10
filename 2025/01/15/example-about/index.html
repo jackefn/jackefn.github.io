@@ -206,6 +206,27 @@
     margin: 1.5em 0 !important;
   }
   
+  /* 确保行内公式（mjx-container 没有 display="true"）保持行内显示 */
+  .custom-post-body mjx-container:not([display="true"]) {
+    display: inline !important;
+    margin: 0 !important;
+  }
+  
+  /* 确保行内公式的父元素不会强制换行 */
+  .custom-post-body p mjx-container:not([display="true"]),
+  .custom-post-body li mjx-container:not([display="true"]),
+  .custom-post-body span mjx-container:not([display="true"]) {
+    display: inline !important;
+    vertical-align: baseline !important;
+  }
+  
+  /* 块级公式（mjx-container[display="true"]）保持块级显示 */
+  .custom-post-body mjx-container[display="true"] {
+    display: block !important;
+    margin: 1.5em auto !important;
+    text-align: center;
+  }
+  
   /* 文章内容样式 */
   .custom-post-content {
     position: relative;
@@ -508,7 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmhswl7ch0003b8gff09h3bgu" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmht1ktc5000904gf2y8r77cs" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
