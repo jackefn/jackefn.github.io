@@ -108,12 +108,14 @@
 </ul>
 <h4 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h4><img src="https://raw.githubusercontent.com/jackefn/jackefn.github.io/main/blog_images/%E6%95%99%E8%82%B2%E6%8E%A8%E8%8D%90Figure%201.png" alt="" width="90%">
 
-<p>如上图所示，</p>
-
+<p>如上图所示，首先将学生的真实数据输入给学习者模块，<code>LLM</code>根据作答记录输出学习者的练习特征，并调用外部的<code>IRT</code>模型，生成学生的预测能力。</p>
+<p>同时，使用记忆模块对学生作答记录进行管理。先将学生当前的作答记录作为事实性记忆，取最近的几轮作答记录作为短期记忆。对于每一道记录，统计其出现的次数，使用统计工具来比较当前添加进事实性记忆里面的与其余记忆的相似性（<code>RCD</code>工具），将相似程度较高的作答记录的次数+1，把次数较多的作答记录作为长期记忆的一部分。此外，记忆模块对长期记忆以及短期记忆进行总结，随着每一轮轮数的变化总结更新一次，并使用<code>DNeuralCDM</code>来动态反应学生作答每一道作答记录后的能力演变。最后，还添加了一个遗忘曲线来模拟人类的学习过程（记忆的调度）。</p>
+<p>定义了上述的两个模块后，可以使用<strong>Agent4Edu</strong>来全面的模拟学生。具体而言，下游的个性化学习算法模块会为该Agent推荐一道题目，Agent根据当前的认知水平来分析是否作答该题目，可以选择拒绝作答；接下来Agent来阅读并理解这道题目，分析该题目的知识点，与真值比较，若不正确可以进行反思；最后学生来进行作答（CoT格式），输出的作答记录可以用于下游的个性化算法模块（例如CAT）。</p>
+<h4 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/11/%E6%95%99%E8%82%B2%E8%AE%BA%E6%96%87%E8%B0%83%E7%A0%94/" data-id="cmi3319x30014zkgfh9al2m19" data-title="教育论文调研" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/11/%E6%95%99%E8%82%B2%E8%AE%BA%E6%96%87%E8%B0%83%E7%A0%94/" data-id="cmi34jo3q000gr4gf5evg0uch" data-title="教育论文调研" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -217,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmi3319wm0001zkgf1ft54o43" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/11/09/GraphRAG-Induced-Dual-Knowledge-Structure-Graphs-for-Personalized-Learning-Path-Recommendation/" data-id="cmi34jo3g0001r4gf47gv5s0f" data-title="GraphRAG-Induced Dual Knowledge Structure Graphs for Personalized Learning Path Recommendation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -284,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmi3319ws0003zkgfglh4devo" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-about/" data-id="cmi34jo3p000cr4gfayxk7ui6" data-title="关于我" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -343,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmi3319wy0009zkgf4gw44vnw" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-study/" data-id="cmi34jo3r000hr4gfdoajbh2v" data-title="JavaScript 异步编程学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -399,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmi3319wx0007zkgffrw59a7g" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/15/example-essay/" data-id="cmi34jo3p000dr4gf3g8ibd9k" data-title="冬日随想" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
